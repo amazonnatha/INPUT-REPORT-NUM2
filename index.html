@@ -27,7 +27,7 @@
         }
 
         .header img {
-            max-width: 100px;
+            max-width: 120px; /* Increase logo size */
             vertical-align: middle;
             margin-bottom: 10px;
         }
@@ -101,6 +101,7 @@
             height: auto;
             border-radius: 10px;
             display: none;
+            margin-bottom: 10px;
         }
 
         .certificate-link {
@@ -154,6 +155,7 @@
     <!-- Image Section -->
     <div class="image-container">
         <img src="" id="CertificateImage" alt="Certificate">
+        <img src="https://verify.jgtl.org/Certificate%20Back%20white.png" id="CertificateBackImage" alt="Certificate Back" style="display: none;">
         <a href="https://www.jgtl.org" class="certificate-link">Back to Website</a>
     </div>
 
@@ -165,6 +167,7 @@
         const folders = ['qr_codes', 'other_folder']; // Add as many folder names as needed
         let found = false;
         const certificateImage = document.getElementById('CertificateImage');
+        const certificateBackImage = document.getElementById('CertificateBackImage');
 
         function displayImage() {
             const reportNumber = document.getElementById('reportNumber').value.trim().toUpperCase();
@@ -182,6 +185,7 @@
             if (index >= folders.length) {
                 if (!found) {
                     certificateImage.style.display = 'none';
+                    certificateBackImage.style.display = 'none';
                     alert("Certificate not found. Please check the report number.");
                 }
                 return;
@@ -195,6 +199,7 @@
             img.onload = function() {
                 certificateImage.src = imageUrl;
                 certificateImage.style.display = 'block';
+                certificateBackImage.style.display = 'block'; // Show Certificate Back Image
                 found = true;
             };
 
