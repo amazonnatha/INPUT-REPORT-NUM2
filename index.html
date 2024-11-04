@@ -27,7 +27,7 @@
         }
 
         .header img {
-            max-width: 120px; /* Increase logo size */
+            max-width: 120px;
             vertical-align: middle;
             margin-bottom: 10px;
         }
@@ -148,6 +148,9 @@
             <label for="email">Email Address:</label>
             <input type="email" id="email" name="email" required>
 
+            <!-- Google reCAPTCHA widget -->
+            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div>
+
             <button type="button" onclick="displayImage()">Verify</button>
         </form>
     </div>
@@ -164,7 +167,7 @@
     </footer>
 
     <script>
-        const folders = ['qr_codes', 'other_folder']; // Add as many folder names as needed
+        const folders = ['qr_codes', 'other_folder'];
         let found = false;
         const certificateImage = document.getElementById('CertificateImage');
         const certificateBackImage = document.getElementById('CertificateBackImage');
@@ -199,7 +202,7 @@
             img.onload = function() {
                 certificateImage.src = imageUrl;
                 certificateImage.style.display = 'block';
-                certificateBackImage.style.display = 'block'; // Show Certificate Back Image
+                certificateBackImage.style.display = 'block';
                 found = true;
             };
 
@@ -208,6 +211,9 @@
             };
         }
     </script>
+
+    <!-- Google reCAPTCHA API -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 </body>
 
