@@ -149,9 +149,9 @@
             <input type="email" id="email" name="email" required>
 
             <!-- Google reCAPTCHA widget with your site key -->
-            <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu"></div>
+            <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu" data-callback="captchaCompleted"></div>
 
-            <button type="button" onclick="displayImage()">Verify</button>
+            <button type="button" onclick="verifyCaptcha()">Verify</button>
         </form>
     </div>
 
@@ -167,6 +167,20 @@
     </footer>
 
     <script>
+        let captchaValidated = false;
+
+        function captchaCompleted() {
+            captchaValidated = true; // Set to true when captcha is successfully completed
+        }
+
+        function verifyCaptcha() {
+            if (!captchaValidated) {
+                alert("Please complete the CAPTCHA verification.");
+                return;
+            }
+            displayImage();
+        }
+
         const folders = ['qr_codes', 'other_folder'];
         let found = false;
         const certificateImage = document.getElementById('CertificateImage');
