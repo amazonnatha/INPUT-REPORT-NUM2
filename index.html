@@ -151,7 +151,7 @@
             <!-- Google reCAPTCHA widget with your site key -->
             <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu" data-callback="captchaCompleted"></div>
 
-            <button type="button" onclick="verifyCaptcha()">Verify</button>
+            <button type="button" id="verifyButton" onclick="verifyCaptcha()">Verify</button>
         </form>
     </div>
 
@@ -170,7 +170,8 @@
         let captchaValidated = false;
 
         function captchaCompleted() {
-            captchaValidated = true; // Set to true when captcha is successfully completed
+            captchaValidated = true; // Set to true when CAPTCHA is successfully completed
+            document.getElementById('verifyButton').disabled = false; // Enable button after CAPTCHA
         }
 
         function verifyCaptcha() {
@@ -178,6 +179,10 @@
                 alert("Please complete the CAPTCHA verification.");
                 return;
             }
+
+            // Disable button after it's clicked
+            document.getElementById('verifyButton').disabled = true;
+
             displayImage();
         }
 
@@ -223,6 +228,16 @@
             img.onerror = function() {
                 checkImageInFolder(index + 1, reportNumber);
             };
+        }
+
+        // Resetting the form and re-enabling the button after a successful search
+        function resetForm() {
+            document.getElementById('verificationForm').reset();
+            document.getElementById('CertificateImage').style.display = 'none';
+            document.getElementById('CertificateBackImage').style.display = 'none';
+            document.getElementById('verifyButton').disabled = true;
+            captchaValidated = false; // Reset CAPTCHA validation
+            grecaptcha.reset(); // Reset reCAPTCHA widget
         }
     </script>
 
