@@ -5,245 +5,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JGTL Online Report Verification</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         /* General Styling */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f9fc;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: #f9f4ec; /* Soft beige background */
+            color: #6c4e33; /* Warm brown text */
         }
 
-        /* Header */
-        .header {
-            width: 100%;
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
-            padding: 20px 0;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        header {
+            background-color: #d8c3a5;
+            color: #6c4e33;
             text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .header img {
+        header img {
             max-width: 120px;
-            vertical-align: middle;
             margin-bottom: 10px;
         }
 
-        .header-title {
-            font-size: 1.5rem;
-            color: #2c3e50;
+        header h1 {
+            font-size: 2.2rem;
+            margin: 0;
             font-weight: bold;
         }
 
-        /* Form Section */
-        .form-container {
-            margin-top: 20px;
-            width: 90%;
-            max-width: 500px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        header p {
+            font-size: 1rem;
+            margin: 5px 0 0;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fffef6;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .container h2 {
             text-align: center;
+            color: #6c4e33;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: bold;
         }
 
-        .form-container h2 {
-            color: #2c3e50;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .form-container label {
+        .form-group label {
             display: block;
             font-size: 1rem;
+            font-weight: 600;
             margin-bottom: 5px;
-            color: #333;
-            text-align: left;
+            color: #6c4e33;
         }
 
-        .form-container input[type="text"],
-        .form-container input[type="email"] {
+        .form-group input {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px;
             font-size: 1rem;
-            box-sizing: border-box;
+            border: 1px solid #b3a497;
+            border-radius: 8px;
             text-transform: uppercase;
+            background-color: #f9f4ec;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
-        .form-container button {
+        .form-group input:focus {
+            outline: none;
+            border-color: #8c7353;
+            box-shadow: 0 0 8px rgba(140, 115, 83, 0.3);
+        }
+
+        .btn {
+            display: block;
             width: 100%;
-            padding: 10px;
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            background-color: #6c4e33;
+            color: #fff;
+            padding: 12px;
             font-size: 1rem;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
-        .form-container button:hover {
-            background-color: #1a73e8;
+        .btn:hover {
+            background-color: #8c7353;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* Image Section */
-        .image-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            display: none;
-            margin-bottom: 10px;
-        }
-
-        .certificate-link {
-            color: #2c3e50;
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: inline-block;
-            padding: 10px 15px;
-            margin-top: 10px;
-            background-color: #bdc3c7;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .certificate-link:hover {
-            background-color: #2c3e50;
-            color: white;
-        }
-
-        /* Footer */
         footer {
-            margin-top: 40px;
+            text-align: center;
+            padding: 15px;
+            background-color: #f9f4ec;
+            color: #6c4e33;
             font-size: 0.9rem;
-            color: #666;
+            margin-top: 30px;
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Header Section -->
-    <header class="header">
-        <img src="https://verify.jgtl.org/Jade%20and%20Gems%20Testing%20Laboratory(2).png" alt="Jade and Gems Testing Laboratory Logo">
-        <div class="header-title">Jade and Gems Testing Laboratory Online Verification</div>
+    <!-- Header -->
+    <header>
+        <img src="https://verify.jgtl.org/Jade%20and%20Gems%20Testing%20Laboratory(2).png" alt="JGTL Logo">
+        <h1>Jade and Gems Testing Laboratory</h1>
+        <p>Online Certificate Verification</p>
     </header>
 
-    <!-- Form Section -->
-    <div class="form-container">
-        <h2>Online Report Verification</h2>
-        <form id="verificationForm">
-            <label for="reportNumber">Report Number:</label>
-            <input type="text" id="reportNumber" name="reportNumber" required>
+    <!-- Main Container -->
+    <div class="container">
+        <h2>Verify Your Certificate</h2>
+        <form id="verificationForm" onsubmit="return verifyCaptcha(event);">
+            <div class="form-group">
+                <label for="reportNumber">Report Number</label>
+                <input type="text" id="reportNumber" name="reportNumber" required>
+            </div>
 
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-            <!-- Google reCAPTCHA widget with your site key -->
+            <!-- Google reCAPTCHA -->
             <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu" data-callback="captchaCompleted"></div>
 
-            <button type="button" id="verifyButton" onclick="verifyCaptcha()">Verify</button>
+            <button type="submit" class="btn">Verify</button>
         </form>
     </div>
 
-    <!-- Image Section -->
-    <div class="image-container">
-        <img src="" id="CertificateImage" alt="Certificate">
-        <img src="https://verify.jgtl.org/Certificate%20Back%20white.png" id="CertificateBackImage" alt="Certificate Back" style="display: none;">
-        <a href="https://www.jgtl.org" class="certificate-link">Back to Website</a>
-    </div>
-
+    <!-- Footer -->
     <footer>
         &copy; 2024 Jade and Gems Testing Laboratory. All rights reserved.
     </footer>
 
     <script>
-        let captchaValidated = false;
+        let isCaptchaCompleted = false;
 
         function captchaCompleted() {
-            captchaValidated = true; // Set to true when CAPTCHA is successfully completed
-            document.getElementById('verifyButton').disabled = false; // Enable button after CAPTCHA
+            isCaptchaCompleted = true; // Update flag when CAPTCHA is completed
         }
 
-        function verifyCaptcha() {
-            if (!captchaValidated) {
-                alert("Please complete the CAPTCHA verification.");
-                return;
+        function verifyCaptcha(event) {
+            if (!isCaptchaCompleted) {
+                alert("Please complete the CAPTCHA.");
+                event.preventDefault();
+                return false;
             }
 
-            // Disable button after it's clicked
-            document.getElementById('verifyButton').disabled = true;
-
-            displayImage();
-        }
-
-        const folders = ['qr_codes', 'other_folder'];
-        let found = false;
-        const certificateImage = document.getElementById('CertificateImage');
-        const certificateBackImage = document.getElementById('CertificateBackImage');
-
-        function displayImage() {
-            const reportNumber = document.getElementById('reportNumber').value.trim().toUpperCase();
-            const email = document.getElementById('email').value.trim();
-
-            if (!reportNumber || !email) {
-                alert("Please enter both the report number and your email address.");
-                return;
-            }
-
-            checkImageInFolder(0, reportNumber);
-        }
-
-        function checkImageInFolder(index, reportNumber) {
-            if (index >= folders.length) {
-                if (!found) {
-                    certificateImage.style.display = 'none';
-                    certificateBackImage.style.display = 'none';
-                    alert("Certificate not found. Please check the report number.");
-                }
-                return;
-            }
-
-            const folder = folders[index];
-            const imageUrl = `https://verify.jgtl.org/${folder}/${reportNumber}.png`;
-            const img = new Image();
-            img.src = imageUrl;
-
-            img.onload = function() {
-                certificateImage.src = imageUrl;
-                certificateImage.style.display = 'block';
-                certificateBackImage.style.display = 'block';
-                found = true;
-            };
-
-            img.onerror = function() {
-                checkImageInFolder(index + 1, reportNumber);
-            };
-        }
-
-        // Resetting the form and re-enabling the button after a successful search
-        function resetForm() {
-            document.getElementById('verificationForm').reset();
-            document.getElementById('CertificateImage').style.display = 'none';
-            document.getElementById('CertificateBackImage').style.display = 'none';
-            document.getElementById('verifyButton').disabled = true;
-            captchaValidated = false; // Reset CAPTCHA validation
-            grecaptcha.reset(); // Reset reCAPTCHA widget
+            alert("CAPTCHA verified. Proceeding with form submission.");
+            return true;
         }
     </script>
-
-    <!-- Google reCAPTCHA API -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
 </body>
 
 </html>
