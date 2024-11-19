@@ -126,7 +126,7 @@
     <!-- Main Container -->
     <div class="container">
         <h2>Verify Your Certificate</h2>
-        <form id="verificationForm" onsubmit="return verifyCaptcha(event);">
+        <form id="verificationForm" method="POST" action="https://your-server-endpoint.com/submit">
             <div class="form-group">
                 <label for="reportNumber">Report Number</label>
                 <input type="text" id="reportNumber" name="reportNumber" required>
@@ -140,7 +140,7 @@
             <!-- Google reCAPTCHA -->
             <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu" data-callback="captchaCompleted"></div>
 
-            <button type="submit" class="btn">Verify</button>
+            <button type="submit" class="btn" id="submitButton" disabled>Verify</button>
         </form>
     </div>
 
@@ -154,18 +154,16 @@
 
         function captchaCompleted() {
             isCaptchaCompleted = true; // Update flag when CAPTCHA is completed
+            document.getElementById("submitButton").disabled = false; // Enable the button
         }
 
-        function verifyCaptcha(event) {
+        // Prevent form submission without CAPTCHA completion
+        document.getElementById("verificationForm").addEventListener("submit", function (event) {
             if (!isCaptchaCompleted) {
                 alert("Please complete the CAPTCHA.");
                 event.preventDefault();
-                return false;
             }
-
-            alert("CAPTCHA verified. Proceeding with form submission.");
-            return true;
-        }
+        });
     </script>
 </body>
 
