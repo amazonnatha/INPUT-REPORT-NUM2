@@ -146,27 +146,61 @@
     <!-- Form Section -->
     <div class="form-container">
         <h2>Online Report Verification</h2>
-        <form id="verificationForm">
+        <form id="verificationForm" onsubmit="return verifyReport()">
             <label for="reportNumber">Report Number:</label>
-            <input type="text" id="reportNumber" name="reportNumber" required>
+            <input type="text" id="reportNumber" name="reportNumber" required placeholder="Enter Report Number">
 
             <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required placeholder="Enter Email Address">
 
-            <!-- Google reCAPTCHA widget -->
-            <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu" data-callback="captchaCompleted"></div>
-
-            <button type="button" id="verifyButton" onclick="verifyCaptcha()">Verify</button>
+            <button type="submit">Verify</button>
         </form>
     </div>
 
-    <!-- Footer -->
+    <!-- Image Section -->
+    <div class="image-container">
+        <img src="" id="CertificateImage" alt="Certificate">
+        <a href="https://www.jgtl.org" class="certificate-link" style="display: none;" id="backLink">Back to Website</a>
+    </div>
+
     <footer>
         &copy; 2024 Jade and Gems Testing Laboratory. All rights reserved.
     </footer>
 
-    <!-- Google reCAPTCHA API -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        function verifyReport() {
+            const reportNumber = document.getElementById('reportNumber').value.trim().toUpperCase();
+            const email = document.getElementById('email').value.trim();
+
+            if (!reportNumber || !email) {
+                alert("Please enter both the report number and your email address.");
+                return false;
+            }
+
+            // Assuming the certificate image is stored on the server with the report number as the file name
+            const imageUrl = `https://verify.jgtl.org/${reportNumber}.png`;
+
+            const img = new Image();
+            img.src = imageUrl;
+
+            img.onload = function () {
+                // Display the certificate image
+                const certificateImage = document.getElementById('CertificateImage');
+                certificateImage.src = imageUrl;
+                certificateImage.style.display = 'block';
+
+                // Show the back link
+                const backLink = document.getElementById('backLink');
+                backLink.style.display = 'inline-block';
+            };
+
+            img.onerror = function () {
+                alert("Certificate not found. Please check the report number.");
+            };
+
+            return false; // Prevent form submission
+        }
+    </script>
 
 </body>
 
