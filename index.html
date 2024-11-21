@@ -96,16 +96,15 @@
     </style>
 </head>
 
-<body>
-    <!-- Header Section -->
+ <!-- Header Section -->
     <header class="header">
-        <img src="https://verify.jgtl.org/Jade%20and%20Gems%20Testing%20Laboratory(2).png" alt="JGTL Logo">
-        <h1>Jade and Gems Testing Laboratory</h1>
+        <img src="https://verify.jgtl.org/Jade%20and%20Gems%20Testing%20Laboratory(2).png" alt="Jade and Gems Testing Laboratory Logo">
+         <h1>Jade and Gems Testing Laboratory</h1>
     </header>
 
     <!-- Form Section -->
     <div class="form-container">
-    <h2>Online Report Verification</h2>
+        <h2>Online Report Verification</h2>
         <h2>ตรวจสอบใบรับรองออนไลน์</h2>
         <form id="verificationForm">
             <label for="reportNumber">Report Number:</label>
@@ -114,11 +113,18 @@
             <label for="email">Email Address:</label>
             <input type="email" id="email" name="email" required>
 
-            <!-- Google reCAPTCHA widget -->
+            <!-- Google reCAPTCHA widget with your site key -->
             <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu" data-callback="captchaCompleted"></div>
 
             <button type="button" id="verifyButton" onclick="verifyCaptcha()">Verify</button>
         </form>
+    </div>
+
+    <!-- Image Section -->
+    <div class="image-container">
+        <img src="" id="CertificateImage" alt="Certificate">
+        <img src="https://verify.jgtl.org/Certificate%20Back%20white.png" id="CertificateBackImage" alt="Certificate Back" style="display: none;">
+        <a href="https://www.jgtl.org" class="certificate-link">Back to Website</a>
     </div>
 
     <footer>
@@ -129,7 +135,7 @@
         let captchaValidated = false;
 
         function captchaCompleted() {
-            captchaValidated = true;
+            captchaValidated = true; // Set to true when CAPTCHA is successfully completed
             document.getElementById('verifyButton').disabled = false; // Enable button after CAPTCHA
         }
 
@@ -141,11 +147,68 @@
 
             // Disable button after it's clicked
             document.getElementById('verifyButton').disabled = true;
+
+            displayImage();
+        }
+
+        const folders = ['qr_codes', 'other_folder'];
+        let found = false;
+        const certificateImage = document.getElementById('CertificateImage');
+        const certificateBackImage = document.getElementById('CertificateBackImage');
+
+        function displayImage() {
+            const reportNumber = document.getElementById('reportNumber').value.trim().toUpperCase();
+            const email = document.getElementById('email').value.trim();
+
+            if (!reportNumber || !email) {
+                alert("Please enter both the report number and your email address.");
+                return;
+            }
+
+            checkImageInFolder(0, reportNumber);
+        }
+
+        function checkImageInFolder(index, reportNumber) {
+            if (index >= folders.length) {
+                if (!found) {
+                    certificateImage.style.display = 'none';
+                    certificateBackImage.style.display = 'none';
+                    alert("Certificate not found. Please check the report number.");
+                }
+                return;
+            }
+
+            const folder = folders[index];
+            const imageUrl = https://verify.jgtl.org/${folder}/${reportNumber}.png;
+            const img = new Image();
+            img.src = imageUrl;
+
+            img.onload = function() {
+                certificateImage.src = imageUrl;
+                certificateImage.style.display = 'block';
+                certificateBackImage.style.display = 'block';
+                found = true;
+            };
+
+            img.onerror = function() {
+                checkImageInFolder(index + 1, reportNumber);
+            };
+        }
+
+        // Resetting the form and re-enabling the button after a successful search
+        function resetForm() {
+            document.getElementById('verificationForm').reset();
+            document.getElementById('CertificateImage').style.display = 'none';
+            document.getElementById('CertificateBackImage').style.display = 'none';
+            document.getElementById('verifyButton').disabled = true;
+            captchaValidated = false; // Reset CAPTCHA validation
+            grecaptcha.reset(); // Reset reCAPTCHA widget
         }
     </script>
 
     <!-- Google reCAPTCHA API -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </body>
 
 </html>
