@@ -8,64 +8,67 @@
     <style>
         /* General Styling */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f5ee;
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 100vh;
-            color: #a0845c;
         }
 
         /* Header */
         .header {
-            margin-bottom: 20px;
+            width: 100%;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .header img {
             max-width: 120px;
+            vertical-align: middle;
             margin-bottom: 10px;
         }
 
-        .header h1 {
-            font-size: 2rem;
+        .header-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
             font-weight: bold;
-            color: #a0845c;
-            margin: 0;
         }
 
         /* Form Section */
         .form-container {
-            background-color: #fff;
+            margin-top: 20px;
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
             padding: 20px;
-            border-radius: 15px;
+            background-color: #ffffff;
+            border-radius: 10px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .form-container h2 {
-            font-size: 1.25rem;
-            margin-bottom: 15px;
-            color: #a0845c;
+            color: #2c3e50;
         }
 
         .form-container label {
             display: block;
-            font-size: 0.9rem;
+            font-size: 1rem;
             margin-bottom: 5px;
+            color: #333;
             text-align: left;
         }
 
-        .form-container input {
+        .form-container input[type="text"],
+        .form-container input[type="email"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #e3dbc8;
-            border-radius: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             font-size: 1rem;
             box-sizing: border-box;
             text-transform: uppercase;
@@ -74,38 +77,70 @@
         .form-container button {
             width: 100%;
             padding: 10px;
-            background-color: #a0845c;
+            background-color: #2c3e50;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s;
         }
 
         .form-container button:hover {
-            background-color: #8a6a4a;
+            background-color: #1a73e8;
+        }
+
+        /* Image Section */
+        .image-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: none;
+            margin-bottom: 10px;
+        }
+
+        .certificate-link {
+            color: #2c3e50;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #bdc3c7;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .certificate-link:hover {
+            background-color: #2c3e50;
+            color: white;
         }
 
         /* Footer */
         footer {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #a0845c;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #666;
         }
     </style>
 </head>
 
- <!-- Header Section -->
+<body>
+
+    <!-- Header Section -->
     <header class="header">
         <img src="https://verify.jgtl.org/Jade%20and%20Gems%20Testing%20Laboratory(2).png" alt="Jade and Gems Testing Laboratory Logo">
-         <h1>Jade and Gems Testing Laboratory</h1>
+        <div class="header-title">Jade and Gems Testing Laboratory Online Verification</div>
     </header>
 
     <!-- Form Section -->
     <div class="form-container">
         <h2>Online Report Verification</h2>
-        <h2>ตรวจสอบใบรับรองออนไลน์</h2>
         <form id="verificationForm">
             <label for="reportNumber">Report Number:</label>
             <input type="text" id="reportNumber" name="reportNumber" required>
