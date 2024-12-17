@@ -87,30 +87,21 @@
         }
 
         .form-container button:hover {
-            background-color: #8a6a4a;
+            background-color: #a0845c;
         }
 
         /* Image Section */
         .image-container {
             margin-top: 20px;
             text-align: center;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* 3D Effect */
-            width: 80%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .image-container img {
-            max-width: 50%; /* Resize to 50% */
+            max-width: 100%;
             height: auto;
             border-radius: 10px;
             display: none;
             margin-bottom: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 3D Effect for image */
         }
 
         .certificate-link {
@@ -207,7 +198,7 @@
                 return;
             }
 
-            const imageUrl = `http://reportcheck.jgtl.org/${reportNumber}.png`;
+            const imageUrl = http://reportcheck.jgtl.org/${reportNumber}.png;
             const img = new Image();
             img.src = imageUrl;
 
