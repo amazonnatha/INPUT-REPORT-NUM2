@@ -87,21 +87,30 @@
         }
 
         .form-container button:hover {
-            background-color: #a0845c;
+            background-color: #8a6a4a;
         }
 
         /* Image Section */
         .image-container {
             margin-top: 20px;
             text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* 3D Effect */
+            width: 80%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .image-container img {
-            max-width: 100%;
+            max-width: 100%; /* Full-size image */
             height: auto;
             border-radius: 10px;
             display: none;
             margin-bottom: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 3D Effect for image */
         }
 
         .certificate-link {
@@ -135,7 +144,7 @@
     <!-- Header Section -->
     <header class="header">
         <img src="https://verify.jgtl.org/Jade%20and%20Gems%20Testing%20Laboratory(3).png" alt="Jade and Gems Testing Laboratory Logo">
-        <div class="header-title">Jade and Gems Testing Laboratory Online Verification</div>
+        <div class="header-title">Jade and Gems Testing Laboratory</div>
     </header>
 
     <!-- Form Section -->
@@ -147,6 +156,9 @@
 
             <label for="email">Email Address:</label>
             <input type="email" id="email" name="email" required>
+
+            <!-- Google reCAPTCHA widget with your site key -->
+            <div class="g-recaptcha" data-sitekey="6LeKJm8qAAAAAGcDT5LEX5Y2fuDNcYnjhOK_9jzu" data-callback="captchaCompleted"></div>
 
             <button type="button" id="verifyButton" onclick="verifyCaptcha()">Verify</button>
         </form>
@@ -164,14 +176,27 @@
     </footer>
 
     <script>
-        let found = false;
-        const folders = ['qr_codes', 'other_folder'];
-        const certificateImage = document.getElementById('CertificateImage');
-        const certificateBackImage = document.getElementById('CertificateBackImage');
+        let captchaValidated = false;
+
+        function captchaCompleted() {
+            captchaValidated = true; // Set to true when CAPTCHA is successfully completed
+            document.getElementById('verifyButton').disabled = false; // Enable button after CAPTCHA
+        }
 
         function verifyCaptcha() {
-            displayImage(); // Directly call the image display function
+            if (!captchaValidated) {
+                alert("Please complete the CAPTCHA verification.");
+                return;
+            }
+
+            // Disable button after it's clicked
+            document.getElementById('verifyButton').disabled = true;
+
+            displayImage();
         }
+
+        const certificateImage = document.getElementById('CertificateImage');
+        const certificateBackImage = document.getElementById('CertificateBackImage');
 
         function displayImage() {
             const reportNumber = document.getElementById('reportNumber').value.trim().toUpperCase();
@@ -182,46 +207,37 @@
                 return;
             }
 
-            checkImageInFolder(0, reportNumber);
-        }
-
-        function checkImageInFolder(index, reportNumber) {
-            if (index >= folders.length) {
-                if (!found) {
-                    certificateImage.style.display = 'none';
-                    certificateBackImage.style.display = 'none';
-                    alert("Certificate not found. Please check the report number.");
-                }
-                return;
-            }
-
-            const folder = folders[index];
             const imageUrl = `http://reportcheck.jgtl.org/${reportNumber}.png`;
-
             const img = new Image();
             img.src = imageUrl;
 
-            img.onload = function () {
-                if (!found) {
-                    certificateImage.src = imageUrl;
-                    certificateImage.style.display = 'block';
-                    certificateBackImage.style.display = 'block';
-                    found = true;
-                }
+            img.onload = function() {
+                certificateImage.src = imageUrl;
+                certificateImage.style.display = 'block';
+                certificateBackImage.style.display = 'block';
             };
 
-            img.onerror = function () {
-                checkImageInFolder(index + 1, reportNumber);
+            img.onerror = function() {
+                certificateImage.style.display = 'none';
+                certificateBackImage.style.display = 'none';
+                alert("Certificate not found. Please check the report number.");
             };
         }
 
-        // Reset form for new searches
+        // Resetting the form and re-enabling the button after a successful search
         function resetForm() {
             document.getElementById('verificationForm').reset();
-            certificateImage.style.display = 'none';
-            certificateBackImage.style.display = 'none';
+            document.getElementById('CertificateImage').style.display = 'none';
+            document.getElementById('CertificateBackImage').style.display = 'none';
+            document.getElementById('verifyButton').disabled = true;
+            captchaValidated = false; // Reset CAPTCHA validation
+            grecaptcha.reset(); // Reset reCAPTCHA widget
         }
     </script>
+
+    <!-- Google reCAPTCHA API -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </body>
 
 </html>
